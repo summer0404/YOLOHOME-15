@@ -52,15 +52,20 @@ export default function FaceIdInput() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="p-3 rounded-4xl bg-gray-100 w-1/3 text-gray-500 outline-none"
+            disabled={isSuccess}
           />
           <div className="flex items-center space-x-2">
-          <button 
-          className="px-6 py-2 bg-blue-900 text-white rounded-full shadow hover:bg-blue-700"
-          onClick={handleUpload}
-          >
-            Add
-          </button>
-          <MoreVertical className="text-blue-900 cursor-pointer" />
+            <button 
+              className={`px-6 py-2 text-white rounded-full shadow
+                ${isSuccess 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-blue-900 hover:bg-blue-700'}`}
+              onClick={handleUpload}
+              disabled={isSuccess}
+            >
+              Add
+            </button>
+            <MoreVertical className="text-blue-900 cursor-pointer" />
           </div>
         </div>
 
