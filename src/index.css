@@ -6,3 +6,8 @@
     --color-button-primary: #FF9060;
     --color-button-secondary: #F4C427;
 }
+
+body {
+    background-color: #F9F9F9;
+    z-index: 0;
+}

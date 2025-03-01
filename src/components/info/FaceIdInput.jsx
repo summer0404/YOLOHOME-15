@@ -44,23 +44,23 @@ export default function FaceIdInput() {
 
   return (
     <>
-      <div className="w-full max-w-4xl p-4 bg-white rounded-lg - shadow-sm border border-gray-200 flex flex-col mt-4">
+      <div className="w-full max-w-4xl py-[17px] px-[27px] bg-white h-[220px]  rounded-[20px] border border-[#E6E5F2] flex flex-col mt-4">
         <div className="flex justify-between items-center mb-4">
           <input
             type="text"
             placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="p-3 rounded-4xl bg-gray-100 w-1/3 text-gray-500 outline-none"
+            className="p-3 rounded-[15px] bg-[#EDEEF4] w-[240px] h-[35px] text-[#6d6f75] outline-none text-[12px]"
           />
           <div className="flex items-center space-x-2">
           <button 
-          className="px-6 py-2 bg-blue-900 text-white rounded-full shadow hover:bg-blue-700"
+          className="px-6 py-2 bg-[#030391] text-white rounded-[15px] text-[12px] cursor-pointer shadow hover:bg-blue-700"
           onClick={handleUpload}
           >
             Add
           </button>
-          <MoreVertical className="text-blue-900 cursor-pointer" />
+          <MoreVertical className="text-[#030391] cursor-pointer" />
           </div>
         </div>
 
@@ -68,12 +68,12 @@ export default function FaceIdInput() {
         {[...Array(5)].map((_, index) => (
           <label
             key={index}
-            className="w-20 h-20 border border-gray-200 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden"
+            className="w-[100px] h-[100px] rounded-[25px] border border-[#EAEAEA] mt-[12px] flex items-center justify-center cursor-pointer overflow-hidden"
           >
             {previews[index] ? (
               <img src={previews[index]} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
             ) : (
-              <span className="text-gray-400 text-sm">+</span>
+              <span className="text-[#EDEEF4]">+</span>
             )}
             <input
               type="file"

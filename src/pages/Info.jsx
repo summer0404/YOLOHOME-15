@@ -15,9 +15,9 @@ export default function Info() {
   };
 
   return (
-    <div className="flex min-h-screen w-2/3 mx-auto">
+    <div className="flex min-h-screen w-[1200px] mx-auto">
       {/* Left Column */}
-      <div className="w-1/2 p-4"> 
+      <div className="w-[750px] p-4"> 
         <FaceIDHeader />
         <div className="flex flex-col items-center space-y-4">
           {faceIdInputs.map((input) => (
@@ -28,7 +28,7 @@ export default function Info() {
       </div>
 
       {/* Right Column */}
-      <div className="w-1/2 p-4">
+      <div className="w-[430px] p-4">
         <UserActions />
         <PasswordInput />
       </div>

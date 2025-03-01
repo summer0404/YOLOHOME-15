@@ -9,11 +9,11 @@ const UserActions = () => {
     <div className="w-full p-6 space-y-6">
       {/* Delete User Section */}
       <div>
-        <h2 className="text-xl font-bold">Delete User</h2>
+        <h2 className="text-xl font-semibold pb-[10px]">Delete User</h2>
         <div className="flex items-center space-x-4 mt-2">
           <div className="relative flex-1">
             <select
-              className="w-full p-3 bg-gray-100 rounded-xl appearance-none pr-8"
+              className="w-full p-3 bg-gray-100 rounded-xl appearance-none pr-8 outline-none"
               value={selectedUser}
               onChange={(e) => setSelectedUser(e.target.value)}
             >
@@ -23,7 +23,7 @@ const UserActions = () => {
             </select>
             <ChevronDown className="absolute top-4 right-3 text-gray-500" />
           </div>
-          <button className="bg-orange-400 text-white px-4 py-2 rounded-xl font-semibold">
+          <button className="bg-[#FF9060] text-white w-[66px] px-4 py-2 rounded-[11px] font-semibold cursor-pointer hover:bg-[#ff8060]">
             Del
           </button>
         </div>
@@ -31,16 +31,16 @@ const UserActions = () => {
 
       {/* Capture User Section */}
       <div>
-        <h2 className="text-xl font-bold">Capture User</h2>
+        <h2 className="text-xl font-semibold pb-[10px]">Capture User</h2>
         <div className="flex items-center space-x-4 mt-2">
           <input
             type="text"
             placeholder="Name..."
             value={captureText}
             onChange={(e) => setCaptureText(e.target.value)}
-            className="flex-1 p-3 bg-gray-100 rounded-xl"
+            className="flex-1 p-3 bg-gray-100 rounded-[11px] outline-none"
           />
-          <button className="bg-yellow-400 text-white px-4 py-2 rounded-xl font-semibold">
+          <button className="bg-[#F4C427] w-[66px] text-white px-4 py-2 rounded-[11px] font-semibold cursor-pointer hover:bg-[#f4ba27]">
             Cap
           </button>
         </div>
@@ -48,7 +48,7 @@ const UserActions = () => {
 
       {/* Training Button */}
       <div className="text-center">
-        <button className="bg-blue-900 text-white px-8 py-3 rounded-xl font-semibold text-lg">
+        <button className="bg-[#030391] text-white px-8 py-3 rounded-[15px] cursor-pointer font-semibold text-lg">
           Training
         </button>
       </div>
