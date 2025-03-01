@@ -178,7 +178,10 @@ setUsers([]); // Set empty array on error
 
       {/* Training Button */}
       <div className="text-center">
-        <button className="bg-blue-900 text-white px-8 py-3 rounded-xl font-semibold text-lg">
+        <button className="bg-blue-900 hover:bg-blue-800 text-white px-8 py-3 rounded-xl font-semibold text-lg"
+        onClick={handleTraining}
+        disabled={isTraining}
+        >
           Training
         </button>
         {trainingMessage && (
