@@ -140,7 +140,7 @@ setUsers([]); // Set empty array on error
           </div>
           <button 
             className="bg-[#FF9060] text-white w-[66px] px-4 py-2 rounded-[11px] font-semibold cursor-pointer hover:bg-[#ff8060]
-                     hover:bg-orange-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                     disabled:bg-gray-300 disabled:cursor-not-allowed"
             disabled={!selectedUser}
             onClick={handleDelete}
           >
