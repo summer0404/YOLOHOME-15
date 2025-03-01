@@ -1,11 +1,27 @@
+import FaceIdInput from "../components/info/FaceIdInput";
+import PasswordInput from "../components/info/PasswordInput";
+import UserActions from "../components/info/UserActions";
+import FaceIDHeader from "../components/info/FaceIDHeader";
+import AddButton from "../components/info/AddButton";
+
 export default function Info() {
-    return (
-        <div className="p-4 ">
-            <h1 className="text-4xl font-bold">Info</h1>
-            <h2 className="text-2xl mt-4 text-button-secondary">Xuan Ha lam o day</h2>
-            <button className="bg-buttonSecondary px-4 py-2 rounded-lg mt-4">
-                Click me
-            </button>
+  return (
+    <div className="flex min-h-screen w-2/3 mx-auto">
+      {/* Left Column */}
+      <div className="w-1/2 p-4 "> 
+        <FaceIDHeader />
+        <div className="flex flex-col items-center">
+        <FaceIdInput />
+        <FaceIdInput />
+        <AddButton />
         </div>
-    )
+      </div>
+
+      {/* Right Column */}
+      <div className="w-1/2 p-4">
+        <UserActions />
+        <PasswordInput />
+      </div>
+    </div>
+  );
 }
