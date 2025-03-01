@@ -56,7 +56,7 @@ export default function PasswordInput() {
      
 
     return (
-        <div className="bg-blue-900 rounded-lg p-4 w-full h-40 mt-4">
+        <div className="bg-[#030391] rounded-[28px] py-[54px] px-[43px] w-full mt-4">
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-white text-2xl font-semibold">Password</h1>
                 <MoreVertical className="text-white cursor-pointer" />
@@ -74,7 +74,7 @@ export default function PasswordInput() {
                     onChange={(e) => handleChange(index,e)} 
                     onClick={() => handleClick(index)}
                     onKeyDown={(e) => handleKeyDown(index,e)}
-                    className="w-16 h-16 bg-white rounded-lg text-center text-2xl font-semibold text-blue-900 mr-2"
+                    className="w-16 h-16 bg-white rounded-[18px] outline-none text-center text-2xl font-semibold bg-[#030391] mr-2"
                     />
                 })
             }

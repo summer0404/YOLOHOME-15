@@ -120,11 +120,11 @@ setUsers([]); // Set empty array on error
     <div className="w-full p-6 space-y-6">
       {/* Delete User Section */}
       <div>
-        <h2 className="text-xl font-bold">Delete User</h2>
+        <h2 className="text-xl font-semibold pb-[10px]">Delete User</h2>
         <div className="flex items-center space-x-4 mt-2">
           <div className="relative flex-1">
             <select
-              className="w-full p-3 bg-gray-100 rounded-xl appearance-none pr-8"
+              className="w-full p-3 bg-gray-100 rounded-xl appearance-none pr-8 outline-none"
               value={selectedUser}
               onChange={(e) => setSelectedUser(e.target.value)}
               disabled={loadingUsers}
@@ -139,7 +139,7 @@ setUsers([]); // Set empty array on error
             <ChevronDown className="absolute top-4 right-3 text-gray-500" />
           </div>
           <button 
-            className="bg-orange-400 text-white px-4 py-2 rounded-xl font-semibold
+            className="bg-[#FF9060] text-white w-[66px] px-4 py-2 rounded-[11px] font-semibold cursor-pointer hover:bg-[#ff8060]
                      hover:bg-orange-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
             disabled={!selectedUser}
             onClick={handleDelete}
@@ -156,18 +156,16 @@ setUsers([]); // Set empty array on error
 
       {/* Capture User Section */}
       <div>
-        <h2 className="text-xl font-bold">Capture User</h2>
+        <h2 className="text-xl font-semibold pb-[10px]">Capture User</h2>
         <div className="flex items-center space-x-4 mt-2">
           <input
             type="text"
             placeholder="Name..."
             value={captureText}
             onChange={(e) => setCaptureText(e.target.value)}
-            className="flex-1 p-3 bg-gray-100 rounded-xl"
+            className="flex-1 p-3 bg-gray-100 rounded-[11px] outline-none"
           />
-          <button className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 rounded-xl font-semibold"
-          onClick={handleCapture}
-          >
+          <button className="bg-yellow-400 text-white px-4 py-2 rounded-xl font-semibold">
             Cap
           </button>
         </div>
@@ -180,15 +178,8 @@ setUsers([]); // Set empty array on error
 
       {/* Training Button */}
       <div className="text-center">
-        <button 
-          className={`px-8 py-3 rounded-xl font-semibold text-lg text-white
-            ${isTraining 
-              ? 'bg-gray-400 cursor-not-allowed' 
-              : 'bg-blue-900 hover:bg-blue-800'}`}
-          onClick={handleTraining}
-          disabled={isTraining}
-        >
-          {isTraining ? 'Training...' : 'Training'}
+        <button className="bg-blue-900 text-white px-8 py-3 rounded-xl font-semibold text-lg">
+          Training
         </button>
         {trainingMessage && (
           <p className={`mt-2 text-sm ${trainingSuccess ? 'text-green-500' : 'text-red-500'}`}>
