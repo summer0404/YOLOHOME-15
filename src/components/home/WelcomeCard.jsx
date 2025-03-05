@@ -14,7 +14,7 @@ export default function WelcomeCard({name, temp, weather}) {
         >
             <div className="flex flex-col ">
                 <h1 className="text-[#C45A01] font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl">Hello {name}!</h1>
-                <p className="text-[#BD5600] text-xs sm:text-sm md:text-base lg:text-base mt-2">Welcome Home! The air quality is good & fresh you can go out today.</p>
+                <p className="text-[#BD5600] text-xs sm:text-sm md:text-base lg:text-base mt-2 max-w-[60%]">Welcome Home! The air quality is good & fresh you can go out today.</p>
             </div>
             <div className="flex items-center space-x-1 mt-8">
                 <Thermometer className="text-[#242424] mr-2" />

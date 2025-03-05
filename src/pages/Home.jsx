@@ -16,8 +16,10 @@ function AdminDashboard() {
   const [temperature, setTemperature] = useState(25);
 
   const current = new Date();
-  const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
-  
+  const date = `${current.getDate()}/${
+    current.getMonth() + 1
+  }/${current.getFullYear()}`;
+
   return (
     <div className="container mx-auto px-4">
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -28,11 +30,9 @@ function AdminDashboard() {
             temp="+26°C"
             weather="Fuzzy cloudy weather"
           />
-
-          {/* Room Selection Bar */}
-          <div className="w-full p-4 bg-gray-100 rounded-lg flex flex-wrap gap-4 items-center">
+          <div className="w-full p-4 rounded-lg flex justify-between items-center ">
             <h3 className="text-xl font-semibold">Home</h3>
-            <div className="flex flex-1 items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-4">
               <span className="flex items-center gap-1">
                 <Droplet className="text-gray-600" />
                 <span>35%</span>
@@ -41,11 +41,11 @@ function AdminDashboard() {
                 <Thermometer className="text-gray-600" />
                 <span>15°C</span>
               </span>
-              <div className="relative flex-1 max-w-xs">
+              <div className="relative w-[200px]">
                 <select className="w-full p-2 bg-[#EDEEF4] rounded-xl appearance-none pr-8 outline-none">
                   <option>Living Room</option>
                 </select>
-                <ChevronDown className="absolute top-3 right-3 text-gray-500" />
+                <ChevronDown className="absolute top-2 right-3 text-gray-500" />
               </div>
             </div>
           </div>
@@ -124,9 +124,7 @@ function AdminDashboard() {
                     <input
                       type="checkbox"
                       checked={isAirConditionerOn}
-                      onChange={() =>
-                        setIsAirConditionerOn((prev) => !prev)
-                      }
+                      onChange={() => setIsAirConditionerOn((prev) => !prev)}
                     />
                     <span className="slider round"></span>
                   </label>
@@ -135,9 +133,7 @@ function AdminDashboard() {
             </div>
             <div className="flex items-center justify-center space-x-6">
               <button
-                onClick={() =>
-                  setTemperature((prev) => Math.max(prev - 1, 16))
-                }
+                onClick={() => setTemperature((prev) => Math.max(prev - 1, 16))}
                 className="w-10 h-10 flex items-center justify-center bg-gray-200 text-gray-600 text-2xl rounded-lg shadow-lg active:scale-95"
               >
                 −
@@ -151,9 +147,7 @@ function AdminDashboard() {
                 </div>
               </div>
               <button
-                onClick={() =>
-                  setTemperature((prev) => Math.min(prev + 1, 30))
-                }
+                onClick={() => setTemperature((prev) => Math.min(prev + 1, 30))}
                 className="w-10 h-10 flex items-center justify-center bg-blue-600 text-white text-2xl rounded-lg shadow-lg active:scale-95"
               >
                 +
