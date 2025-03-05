@@ -7,8 +7,8 @@ export const train = async () => {
         const response = await axios.get(`${API_URL}`, {
             headers: {
                 "Content-Type": "application/json",
-                "ngrok-skip-browser-warning": "true",  // Add this header
-                "Access-Control-Allow-Origin": "*"      // Add this header
+                "ngrok-skip-browser-warning": "true",  
+                "Access-Control-Allow-Origin": "*" 
             },
         });
 

@@ -30,7 +30,7 @@ export default function Info() {
       {/* Right Column */}
       <div className="w-[430px] p-4">
         <UserActions />
-        <PasswordInput />
+        <PasswordInput bgColor='color-primary'/>
       </div>
     </div>
   );

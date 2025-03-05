@@ -13,6 +13,7 @@ export default function PasswordInput() {
 
   const onPasswordSubmit = (password) => {
     console.log(password);
+    //Save for later use
   };
 
   const handleChange = (index, e) => {
@@ -39,7 +40,6 @@ export default function PasswordInput() {
   const handleClick = (index) => {
     inputRefs.current[index].setSelectionRange(1, 1);
 
-    //optional
     if (index > 0 && !password[index - 1]) {
       inputRefs.current[password.indexOf("")].focus();
     }
@@ -58,9 +58,9 @@ export default function PasswordInput() {
   };
 
   return (
-    <div className="bg-primary rounded-[28px] py-[54px] px-[43px] w-full mt-4">
+    <div className="bg-white rounded-[28px] py-[40px] px-[43px] w-full mt-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-white text-2xl font-semibold">Password</h1>
+        <h1 className="text-gray-700 text-2xl font-semibold">Password</h1>
         <MoreVertical className="text-white cursor-pointer" />
       </div>
 
@@ -76,7 +76,7 @@ export default function PasswordInput() {
               onChange={(e) => handleChange(index, e)}
               onClick={() => handleClick(index)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className="w-16 h-16 bg-white rounded-[18px] outline-none text-center text-2xl font-semibold mr-2"
+              className="w-14 h-14 bg-white rounded-[18px] outline outline-gray-300 text-center text-2xl font-semibold mr-2"
             />
           );
         })}
