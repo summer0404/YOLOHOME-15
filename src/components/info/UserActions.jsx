@@ -165,7 +165,7 @@ setUsers([]); // Set empty array on error
             onChange={(e) => setCaptureText(e.target.value)}
             className="flex-1 p-3 bg-gray-100 rounded-[11px] outline-none"
           />
-          <button className="bg-yellow-400 text-white px-4 py-2 rounded-xl font-semibold">
+          <button className="bg-[#F4C427] cursor-pointer hover:opacity-80 text-white px-4 py-2 rounded-xl font-semibold">
             Cap
           </button>
         </div>
@@ -178,7 +178,7 @@ setUsers([]); // Set empty array on error
 
       {/* Training Button */}
       <div className="text-center">
-        <button className="bg-blue-900 hover:bg-blue-800 text-white px-8 py-3 rounded-xl font-semibold text-lg"
+        <button className="bg-primary hover:bg-primary/80 cursor-pointer text-white px-8 py-3 rounded-xl font-semibold text-lg"
         onClick={handleTraining}
         disabled={isTraining}
         >

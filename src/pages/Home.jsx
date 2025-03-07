@@ -5,6 +5,8 @@ import { Droplet } from "lucide-react";
 import { Thermometer } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 import AIService from "../components/home/AIService";
+import CustomChart from "../components/home/CustomChart";
+
 
 function AdminDashboard() {
   const [isTemperatureOn, setIsTemperatureOn] = useState(false);
@@ -21,7 +23,7 @@ function AdminDashboard() {
   }/${current.getFullYear()}`;
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 bg-[#F9F9F9]">
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Left and Middle Column */}
         <div className="xl:col-span-2 space-y-6">
@@ -74,20 +76,27 @@ function AdminDashboard() {
             ].map((item, index) => (
               <div key={index} className="p-4">
                 <div
-                  className={`p-4 rounded-[24px] flex flex-col items-start justify-start ${
+                  className={`p-4 flex flex-col items-start justify-start rounded-[25px]  ${
                     item.state
-                      ? "bg-primary text-white shadow-lg shadow-primary"
-                      : "bg-white text-gray-800"
+                      ? "bg-primary text-white shadow-md shadow-primary"
+                      : "bg-white text-gray-800  border-[#E6E5F2] rounded-[25px] border-[1px]"
                   }`}
                 >
                   <div className="flex items-center justify-between w-full">
                     <span>{item.state ? "ON" : "OFF"}</span>
                     <label className="switch">
-                      <input
-                        type="checkbox"
-                        checked={item.state}
-                        onChange={() => item.setState((prev) => !prev)}
-                      />
+                      <div
+                        className={`w-[42px] h-[24px] flex items-center rounded-[12px] cursor-pointer transition-all ${
+                          item.state ? "bg-white" : "bg-[#F3F1F1]"
+                        }`}
+                        onClick={() => item.setState((prev) => !prev)}
+                      >
+                        <div
+                          className={`w-[20px] h-[20px] rounded-[50%] transition-transform ${
+                            item.state ? "translate-x-[20px] bg-primary" : "translate-x-[2.5px] translate-y-[-0.5px] bg-white"
+                          }`}
+                        ></div>
+                      </div>
                       <span className="slider round"></span>
                     </label>
                   </div>
@@ -103,7 +112,7 @@ function AdminDashboard() {
           </div>
 
           {/* Air Conditioner Control Panel */}
-          <div className="p-6 bg-white rounded-2xl shadow-lg border border-gray-200">
+          <div className="p-6 bg-white rounded-[25px] pb-[60px] shadow-lg border border-gray-200">
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center space-x-2">
                 <span className="text-blue-600 text-lg">⚡</span>
@@ -121,11 +130,26 @@ function AdminDashboard() {
                 <div className="flex items-center justify-between w-full gap-x-4">
                   <span>{isAirConditionerOn ? "ON" : "OFF"}</span>
                   <label className="switch">
-                    <input
+                    {/* <input
                       type="checkbox"
+                      className="toggle-switch"
                       checked={isAirConditionerOn}
-                      onChange={() => setIsAirConditionerOn((prev) => !prev)}
-                    />
+                      onChange={() => setIsAirConditionerOn(!isAirConditionerOn)}
+                    /> */}
+
+                    <div
+                      className={`w-[42px] h-[24px] flex items-center rounded-[12px] cursor-pointer transition-all ${
+                        isAirConditionerOn ? "bg-primary" : "bg-[#F3F1F1] "
+                      }`}
+                      onClick={() => setIsAirConditionerOn(!isAirConditionerOn)}
+                    >
+                      <div
+                        className={`w-[20px] h-[20px] rounded-[50%] transition-transform ${
+                          isAirConditionerOn ? "translate-x-[20px] bg-white" : "translate-x-[2.5px] translate-y-[-0.5px] bg-white"
+                        }`}
+                      ></div>
+                    </div>
+
                     <span className="slider round"></span>
                   </label>
                 </div>
@@ -134,9 +158,9 @@ function AdminDashboard() {
             <div className="flex items-center justify-center space-x-6">
               <button
                 onClick={() => setTemperature((prev) => Math.max(prev - 1, 16))}
-                className="w-10 h-10 flex items-center justify-center bg-gray-200 text-gray-600 text-2xl rounded-lg shadow-lg active:scale-95"
+                className="w-10 h-10 flex items-center justify-center cursor-pointer bg-[#F5F5F5] text-gray-600 text-2xl shadow-2xs rounded-lg pb-[5px] active:scale-95"
               >
-                −
+                -
               </button>
               <div className="relative w-40 h-40 flex items-center justify-center rounded-full bg-gradient-to-b from-gray-200 to-white shadow-lg">
                 <div className="w-28 h-28 bg-white rounded-full flex flex-col items-center justify-center shadow-inner">
@@ -148,7 +172,7 @@ function AdminDashboard() {
               </div>
               <button
                 onClick={() => setTemperature((prev) => Math.min(prev + 1, 30))}
-                className="w-10 h-10 flex items-center justify-center bg-blue-600 text-white text-2xl rounded-lg shadow-lg active:scale-95"
+                className="w-10 h-10 flex items-center justify-center cursor-pointer bg-primary text-white text-2xl rounded-lg shadow-lg active:scale-95"
               >
                 +
               </button>
@@ -158,23 +182,24 @@ function AdminDashboard() {
 
         {/* Right Column */}
         <div className="xl:col-span-1">
-          <div className="bg-gray-200 w-full h-auto p-6 rounded-lg">
+          <div className="bg-[#ededf5bd] w-full px-[30px] py-[40px] rounded-[28px]">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-black text-2xl font-semibold">Services</h2>
-              <span className="text-base bg-gray-200 px-3 py-1 rounded-md">
+              <h2 className="text-black text-[23px] font-semibold">Services</h2>
+              <span className="text-base bg-[#EDEEF4] px-[20px] py-[10px] rounded-[10px]">
                 {date}
               </span>
             </div>
             <AIService />
             <PasswordInput />
             <div className="mt-6">
-              <h3 className="text-black text-xl font-medium">Temperature</h3>
-              <div className="bg-white rounded-lg shadow p-4">
-                <img
+              <h3 className="text-black text-[18px] font-semibold pb-[20px]">Temperature</h3>
+              <div className="">
+                {/* <img
                   alt="Temperature graph"
                   className="w-full h-auto rounded-lg"
                   src="/tem.png"
-                />
+                /> */}
+                <CustomChart />
               </div>
             </div>
           </div>

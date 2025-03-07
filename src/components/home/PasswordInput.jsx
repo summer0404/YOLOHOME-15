@@ -58,13 +58,13 @@ export default function PasswordInput() {
   };
 
   return (
-    <div className="bg-white rounded-[28px] py-[40px] px-[43px] w-full mt-4">
+    <div className=" rounded-[28px] py-[40px] w-full mt-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-gray-700 text-2xl font-semibold">Password</h1>
-        <MoreVertical className="text-white cursor-pointer" />
+        <h1 className="text-[18px] font-semibold">Password</h1>
+        <MoreVertical className="cursor-pointer" />
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between pt-[10px]">
         {/* Password Input */}
         {password.map((value, index) => {
           return (
@@ -76,7 +76,7 @@ export default function PasswordInput() {
               onChange={(e) => handleChange(index, e)}
               onClick={() => handleClick(index)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className="w-14 h-14 bg-white rounded-[18px] outline outline-gray-300 text-center text-2xl font-semibold mr-2"
+              className="w-[70px] h-[70px] bg-white rounded-[15px] outline outline-[#E6E5F2] text-center text-[20px] font-semibold mr-2"
             />
           );
         })}

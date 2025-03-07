@@ -10,19 +10,19 @@ export default function SideBar() {
         <Link to="/" className="text-primary">
           <Home size={24} />
         </Link>
-        <div className="bg-primary p-2 rounded-2xl flex flex-col items-center py-10 ml-4">
+        <div className="bg-primary p-2 rounded-[10px] flex flex-col items-center py-[15px] ml-4">
           <div className="flex flex-col items-center gap-6">
-            <div className={`p-4 rounded-xl flex flex-col items-center ${location.pathname === "/" ? "bg-white" : ""}`}>
+            <div className={`p-4 rounded-[10px] flex flex-col items-center ${location.pathname === "/" ? "bg-white" : ""}`}>
               <Link to="/" className={location.pathname === "/" ? "text-primary" : "text-white"}>
                 <LayoutGrid size={24} />
               </Link>
             </div>
-            <div className={`p-4 rounded-xl flex flex-col items-center ${location.pathname === "/info" ? "bg-white" : ""}`}>
+            <div className={`p-4 rounded-[10px] flex flex-col items-center ${location.pathname === "/info" ? "bg-white" : ""}`}>
               <Link to="/info" className={location.pathname === "/info" ? "text-primary" : "text-white"}>
                 <Shield size={24} />
               </Link>
             </div>
-            <div className={`p-4 rounded-xl flex flex-col items-center ${location.pathname === "/user" ? "bg-white" : ""}`}>
+            <div className={`p-4 rounded-[10px] flex flex-col items-center ${location.pathname === "/user" ? "bg-white" : ""}`}>
               <Link to="#" className="text-white">
                 <User size={24} />
               </Link>

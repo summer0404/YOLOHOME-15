@@ -56,12 +56,12 @@ export default function FaceIdInput() {
           />
           <div className="flex items-center space-x-2">
           <button 
-          className="px-6 py-2 bg-blue-900 text-white rounded-full shadow hover:bg-blue-700"
+          className="px-6 py-2 bg-primary hover:bg-primary/80 cursor-pointer text-white rounded-full shadow"
           onClick={handleUpload}
           >
             Add
           </button>
-          <MoreVertical className="text-blue-900 cursor-pointer" />
+          <MoreVertical className="text-primary cursor-pointer" />
           </div>
         </div>
 

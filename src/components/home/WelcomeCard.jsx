@@ -6,7 +6,7 @@ import { Cloudy } from "lucide-react";
 export default function WelcomeCard({name, temp, weather}) {
     return (
         <div 
-            className="w-full h-40 sm:h-48 md:h-56 lg:h-64 bg-cover bg-no-repeat rounded-[28px] mt-4 drop-shadow-lg p-6"
+            className="w-full h-40 sm:h-48 md:h-56 lg:h-64 bg-cover bg-no-repeat rounded-[28px] drop-shadow-lg p-6"
             style={{ 
                 backgroundImage: `url(${bgHome})`, 
                 backgroundPosition: 'center'  // Adjust this percentage to move left/right
