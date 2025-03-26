@@ -10,19 +10,27 @@ import { fetchAdafruitData } from "../utils/fetchAdafruitData";
 import { controlAdafruitDevice } from "../utils/controlAdafruitDevice";
 import { controlFanSpeed } from "../utils/controlFanSpeed";
 
-function AdminDashboard() {
+const handleLockClick = async (item) => {
+  item.setState(1); 
+  await controlAdafruitDevice(item.device, 1); 
+  setTimeout(async () => {
+    item.setState(0); 
+    await controlAdafruitDevice(item.device, 0); 
+  }, 5000); 
+};
 
+function AdminDashboard() {
   const [isLockOn, setIsLockOn] = useState(0);
-  const [isFanOn, setIsFanOn] = useState(0); 
+  const [isFanOn, setIsFanOn] = useState(0);
   const [isLightsOn, setIsLightsOn] = useState(0);
 
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [fanSpeed, setFanSpeed] = useState(50); 
+  const [fanSpeed, setFanSpeed] = useState(50);
   const [temperature, setTemperature] = useState(null);
-  const [humidity, setHumidity] = useState(null)
+  const [humidity, setHumidity] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () =>{
+    const fetchData = async () => {
       const temp = await fetchAdafruitData("bbc-temperature");
       const hum = await fetchAdafruitData("bbc-humidity");
       setTemperature(temp);
@@ -33,19 +41,19 @@ function AdminDashboard() {
 
     const interval = setInterval(fetchData, 5000);
     return () => clearInterval(interval);
-  }, [])
+  }, []);
 
   const toggleDevice = async (device, currentState, setState) => {
     const newState = currentState === 0 ? 1 : 0;
     await controlAdafruitDevice(device, newState);
     setState(newState);
-};
+  };
 
-const handleSpeedChange = async (event) => {
-  const newSpeed = parseInt(event.target.value, 10);
-  setFanSpeed(newSpeed); 
-  await controlFanSpeed(newSpeed);
-};
+  const handleSpeedChange = async (event) => {
+    const newSpeed = parseInt(event.target.value, 10);
+    setFanSpeed(newSpeed);
+    await controlFanSpeed(newSpeed);
+  };
 
   const current = new Date();
   const date = `${current.getDate()}/${
@@ -90,12 +98,13 @@ const handleSpeedChange = async (event) => {
                 setState: setIsLockOn,
                 icon: "fa-lock",
                 label: "Lock",
-                device: "bbc-servo", 
+                device: "bbc-servo",
+                isButton: true,
               },
               {
-                state: isFanOn, 
-                setState: setIsFanOn, 
-                icon: "fa-fan", 
+                state: isFanOn,
+                setState: setIsFanOn,
+                icon: "fa-fan",
                 label: "Fan",
                 device: "bbc-fan",
               },
@@ -109,36 +118,63 @@ const handleSpeedChange = async (event) => {
             ].map((item, index) => (
               <div key={index} className="p-4">
                 <div
-                  className={`p-4 flex flex-col items-start justify-start rounded-[25px]  ${
+                  className={`p-4 h-35 flex flex-col items-center justify-center rounded-[25px] ${
                     item.state
                       ? "bg-primary text-white shadow-md shadow-primary"
-                      : "bg-white text-gray-800  border-[#E6E5F2] rounded-[25px] border-[1px]"
+                      : "bg-white text-gray-800 border-[#E6E5F2] rounded-[25px] border-[1px]"
                   }`}
                 >
-                  <div className="flex items-center justify-between w-full">
-                    <span>{item.state ? "ON" : "OFF"}</span>
-                    <label className="switch">
-                      <div
-                        className={`w-[42px] h-[24px] flex items-center rounded-[12px] cursor-pointer transition-all ${
-                          item.state ? "bg-white" : "bg-[#F3F1F1]"
+                  {item.isButton ? (
+                    // Lock Button
+                    <>
+                      <button
+                        onClick={() => handleLockClick(item)}
+                        className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold ${
+                          item.state ? "bg-white text-primary lock-animation pulse-animation" : "bg-gray-300 text-gray-600"
                         }`}
-                        onClick={() => toggleDevice(item.device, item.state, item.setState)} // Use toggleDevice
                       >
-                        <div
-                          className={`w-[20px] h-[20px] rounded-[50%] transition-transform ${
-                            item.state ? "translate-x-[20px] bg-primary" : "translate-x-[2.5px] translate-y-[-0.5px] bg-white"
-                          }`}
-                        ></div>
+                        {/* Change the icon dynamically based on the state */}
+                        <i className={`fas ${item.state ? "fa-lock-open" : "fa-lock"}`}></i>
+                      </button>
+                      <span className="mt-4 text-lg font-medium">{item.label}</span>
+                    </>
+                  ) : (
+        
+                    <>
+                      <div className="flex items-center justify-between w-full">
+                        <span>{item.state ? "ON" : "OFF"}</span>
+                        <label className="switch">
+                          <div
+                            className={`w-[42px] h-[24px] flex items-center rounded-[12px] cursor-pointer transition-all ${
+                              item.state ? "bg-white" : "bg-[#F3F1F1]"
+                            }`}
+                            onClick={() =>
+                              toggleDevice(
+                                item.device,
+                                item.state,
+                                item.setState
+                              )
+                            }
+                          >
+                            <div
+                              className={`w-[20px] h-[20px] rounded-[50%] transition-transform ${
+                                item.state
+                                  ? "translate-x-[20px] bg-primary"
+                                  : "translate-x-[2.5px] translate-y-[-0.5px] bg-white"
+                              }`}
+                            ></div>
+                          </div>
+                          <span className="slider round"></span>
+                        </label>
                       </div>
-                      <span className="slider round"></span>
-                    </label>
-                  </div>
-                  <i
-                    className={`fas ${item.icon} text-2xl mt-4 ${
-                      item.state ? "text-white" : "text-gray-400"
-                    }`}
-                  ></i>
-                  <span className="mt-2">{item.label}</span>
+                      <i
+                        className={`fas ${item.icon} text-2xl mt-4 ${
+                          item.state ? "text-white" : "text-gray-400"
+                        }`}
+                      ></i>
+                      <span className="mt-2">{item.label}</span>
+                    </>
+                  )}
                 </div>
               </div>
             ))}
@@ -148,7 +184,6 @@ const handleSpeedChange = async (event) => {
           <div className="p-6 bg-white rounded-[25px] pb-[60px] shadow-lg border border-gray-200">
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center space-x-2">
-                <span className="text-blue-600 text-lg">⚡</span>
                 <span className="text-gray-600 font-medium">Fan</span>
               </div>
               <div
@@ -180,8 +215,17 @@ const handleSpeedChange = async (event) => {
             </div>
             <div className="flex items-center justify-center space-x-6">
               <button
-                onClick={() => handleSpeedChange({ target: { value: Math.max(fanSpeed - 5, 0) } })}
-                className="w-10 h-10 flex items-center justify-center cursor-pointer bg-[#F5F5F5] text-gray-600 text-2xl shadow-2xs rounded-lg pb-[5px] active:scale-95"
+                onClick={() =>
+                  handleSpeedChange({
+                    target: { value: Math.max(fanSpeed - 5, 0) },
+                  })
+                }
+                disabled={!isFanOn} // Disable button if fan is off
+                className={`w-10 h-10 flex items-center justify-center cursor-pointer text-2xl shadow-2xs rounded-lg pb-[5px] active:scale-95 ${
+                  isFanOn
+                    ? "bg-[#F5F5F5] text-gray-600"
+                    : "bg-gray-300 text-gray-400 cursor-not-allowed"
+                }`}
               >
                 -
               </button>
@@ -192,8 +236,17 @@ const handleSpeedChange = async (event) => {
                 </div>
               </div>
               <button
-                onClick={() => handleSpeedChange({ target: { value: Math.min(fanSpeed + 5, 100) } })}
-                className="w-10 h-10 flex items-center justify-center cursor-pointer bg-primary text-white text-2xl rounded-lg shadow-lg active:scale-95"
+                onClick={() =>
+                  handleSpeedChange({
+                    target: { value: Math.min(fanSpeed + 5, 100) },
+                  })
+                }
+                disabled={!isFanOn}
+                className={`w-10 h-10 flex items-center justify-center cursor-pointer text-2xl rounded-lg shadow-lg active:scale-95 ${
+                  isFanOn
+                    ? "bg-primary text-white"
+                    : "bg-gray-300 text-gray-400 cursor-not-allowed"
+                }`}
               >
                 +
               </button>
@@ -213,7 +266,9 @@ const handleSpeedChange = async (event) => {
             <AIService />
             <PasswordInput />
             <div className="mt-6">
-              <h3 className="text-black text-[18px] font-semibold pb-[20px]">Temperature</h3>
+              <h3 className="text-black text-[18px] font-semibold pb-[20px]">
+                Temperature
+              </h3>
               <div className="">
                 {/* <img
                   alt="Temperature graph"
