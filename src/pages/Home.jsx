@@ -7,14 +7,16 @@ import { ChevronDown } from "lucide-react";
 import AIService from "../components/home/AIService";
 import CustomChart from "../components/home/CustomChart";
 import { fetchAdafruitData } from "../utils/fetchAdafruitData";
+import { controlAdafruitDevice } from "../utils/controlAdafruitDevice";
+import { controlFanSpeed } from "../utils/controlFanSpeed";
 
 function AdminDashboard() {
-  const [isTemperatureOn, setIsTemperatureOn] = useState(false);
-  const [isLockOn, setIsLockOn] = useState(false);
-  const [isFanOn, setIsFanOn] = useState(false); 
-  const [isLightsOn, setIsLightsOn] = useState(false);
+
+  const [isLockOn, setIsLockOn] = useState(0);
+  const [isFanOn, setIsFanOn] = useState(0); 
+  const [isLightsOn, setIsLightsOn] = useState(0);
+
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [isOn, setIsOn] = useState(true);
   const [fanSpeed, setFanSpeed] = useState(50); 
   const [temperature, setTemperature] = useState(null);
   const [humidity, setHumidity] = useState(null)
@@ -33,6 +35,17 @@ function AdminDashboard() {
     return () => clearInterval(interval);
   }, [])
 
+  const toggleDevice = async (device, currentState, setState) => {
+    const newState = currentState === 0 ? 1 : 0;
+    await controlAdafruitDevice(device, newState);
+    setState(newState);
+};
+
+const handleSpeedChange = async (event) => {
+  const newSpeed = parseInt(event.target.value, 10);
+  setFanSpeed(newSpeed); 
+  await controlFanSpeed(newSpeed);
+};
 
   const current = new Date();
   const date = `${current.getDate()}/${
@@ -77,18 +90,21 @@ function AdminDashboard() {
                 setState: setIsLockOn,
                 icon: "fa-lock",
                 label: "Lock",
+                device: "bbc-servo", 
               },
               {
                 state: isFanOn, 
                 setState: setIsFanOn, 
                 icon: "fa-fan", 
-                label: "Fan", 
+                label: "Fan",
+                device: "bbc-fan",
               },
               {
                 state: isLightsOn,
                 setState: setIsLightsOn,
                 icon: "fa-lightbulb",
                 label: "Lights",
+                device: "bbc-led",
               },
             ].map((item, index) => (
               <div key={index} className="p-4">
@@ -106,7 +122,7 @@ function AdminDashboard() {
                         className={`w-[42px] h-[24px] flex items-center rounded-[12px] cursor-pointer transition-all ${
                           item.state ? "bg-white" : "bg-[#F3F1F1]"
                         }`}
-                        onClick={() => item.setState((prev) => !prev)}
+                        onClick={() => toggleDevice(item.device, item.state, item.setState)} // Use toggleDevice
                       >
                         <div
                           className={`w-[20px] h-[20px] rounded-[50%] transition-transform ${
@@ -133,15 +149,11 @@ function AdminDashboard() {
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center space-x-2">
                 <span className="text-blue-600 text-lg">⚡</span>
-                <span className="text-gray-600 font-medium">
-                  Fan
-                </span>
+                <span className="text-gray-600 font-medium">Fan</span>
               </div>
               <div
                 className={`p-4 rounded-lg flex flex-col items-start justify-between ${
-                  isFanOn
-                    ? "bg-white text-gray-800"
-                    : "bg-white text-gray-800"
+                  isFanOn ? "bg-white text-gray-800" : "bg-white text-gray-800"
                 }`}
               >
                 <div className="flex items-center justify-between w-full gap-x-4">
@@ -149,13 +161,15 @@ function AdminDashboard() {
                   <label className="switch">
                     <div
                       className={`w-[42px] h-[24px] flex items-center rounded-[12px] cursor-pointer transition-all ${
-                        isFanOn ? "bg-primary" : "bg-[#F3F1F1] "
+                        isFanOn ? "bg-primary" : "bg-[#F3F1F1]"
                       }`}
                       onClick={() => setIsFanOn(!isFanOn)}
                     >
                       <div
                         className={`w-[20px] h-[20px] rounded-[50%] transition-transform ${
-                          isFanOn ? "translate-x-[20px] bg-white" : "translate-x-[2.5px] translate-y-[-0.5px] bg-white"
+                          isFanOn
+                            ? "translate-x-[20px] bg-white"
+                            : "translate-x-[2.5px] translate-y-[-0.5px] bg-white"
                         }`}
                       ></div>
                     </div>
@@ -166,20 +180,19 @@ function AdminDashboard() {
             </div>
             <div className="flex items-center justify-center space-x-6">
               <button
-                onClick={() => setFanSpeed((prev) => Math.max(prev - 5, 0))}
+                onClick={() => handleSpeedChange({ target: { value: Math.max(fanSpeed - 5, 0) } })}
                 className="w-10 h-10 flex items-center justify-center cursor-pointer bg-[#F5F5F5] text-gray-600 text-2xl shadow-2xs rounded-lg pb-[5px] active:scale-95"
               >
                 -
               </button>
               <div className="relative w-40 h-40 flex items-center justify-center rounded-full bg-gradient-to-b from-gray-200 to-white shadow-lg">
                 <div className="w-28 h-28 bg-white rounded-full flex flex-col items-center justify-center shadow-inner">
-                  <span className="text-2xl font-semibold">
-                    {fanSpeed}
-                  </span>
+                  <span className="text-2xl font-semibold">{fanSpeed}</span>
+                  <span className="text-gray-400 text-sm">Speed</span>
                 </div>
               </div>
               <button
-                onClick={() => setFanSpeed((prev) => Math.min(prev + 5, 100))}
+                onClick={() => handleSpeedChange({ target: { value: Math.min(fanSpeed + 5, 100) } })}
                 className="w-10 h-10 flex items-center justify-center cursor-pointer bg-primary text-white text-2xl rounded-lg shadow-lg active:scale-95"
               >
                 +
