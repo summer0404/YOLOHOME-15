@@ -4,6 +4,8 @@ import { Thermometer } from "lucide-react";
 import { Cloudy } from "lucide-react";
 
 export default function WelcomeCard({name, temp, weather}) {
+    
+    
     return (
         <div 
             className="w-full h-40 sm:h-48 md:h-56 lg:h-64 bg-cover bg-no-repeat rounded-[28px] drop-shadow-lg p-6"

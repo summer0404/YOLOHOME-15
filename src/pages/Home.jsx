@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PasswordInput from "../components/home/PasswordInput";
 import WelcomeCard from "../components/home/WelcomeCard";
 import { Droplet } from "lucide-react";
@@ -6,7 +6,7 @@ import { Thermometer } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 import AIService from "../components/home/AIService";
 import CustomChart from "../components/home/CustomChart";
-
+import { fetchAdafruitData } from "../utils/fetchAdafruitData";
 
 function AdminDashboard() {
   const [isTemperatureOn, setIsTemperatureOn] = useState(false);
@@ -16,6 +16,23 @@ function AdminDashboard() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isOn, setIsOn] = useState(true);
   const [fanSpeed, setFanSpeed] = useState(50); 
+  const [temperature, setTemperature] = useState(null);
+  const [humidity, setHumidity] = useState(null)
+
+  useEffect(() => {
+    const fetchData = async () =>{
+      const temp = await fetchAdafruitData("bbc-temperature");
+      const hum = await fetchAdafruitData("bbc-humidity");
+      setTemperature(temp);
+      setHumidity(hum);
+    };
+
+    fetchData();
+
+    const interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
+  }, [])
+
 
   const current = new Date();
   const date = `${current.getDate()}/${
@@ -29,7 +46,7 @@ function AdminDashboard() {
         <div className="xl:col-span-2 space-y-6">
           <WelcomeCard
             name="Xuan Ha"
-            temp="+26°C"
+            temp={`${temperature}°C`}
             weather="Fuzzy cloudy weather"
           />
           <div className="w-full p-4 rounded-lg flex justify-between items-center ">
@@ -37,11 +54,11 @@ function AdminDashboard() {
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1">
                 <Droplet className="text-gray-600" />
-                <span>35%</span>
+                <span>{humidity}%</span>
               </span>
               <span className="flex items-center gap-1">
                 <Thermometer className="text-gray-600" />
-                <span>15°C</span>
+                <span>{temperature}°C</span>
               </span>
               <div className="relative w-[200px]">
                 <select className="w-full p-2 bg-[#EDEEF4] rounded-xl appearance-none pr-8 outline-none">
