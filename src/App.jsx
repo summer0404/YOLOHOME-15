@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Info from "./pages/Info";
 import SideBar from "./components/SideBar";
 import NavBar from "./components/NavBar";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function App() {
   return (

@@ -11,11 +11,11 @@ import CustomChart from "../components/home/CustomChart";
 function AdminDashboard() {
   const [isTemperatureOn, setIsTemperatureOn] = useState(false);
   const [isLockOn, setIsLockOn] = useState(false);
-  const [isAirConditionerOn, setIsAirConditionerOn] = useState(false);
+  const [isFanOn, setIsFanOn] = useState(false); 
   const [isLightsOn, setIsLightsOn] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isOn, setIsOn] = useState(true);
-  const [temperature, setTemperature] = useState(25);
+  const [fanSpeed, setFanSpeed] = useState(50); 
 
   const current = new Date();
   const date = `${current.getDate()}/${
@@ -62,10 +62,10 @@ function AdminDashboard() {
                 label: "Lock",
               },
               {
-                state: isAirConditionerOn,
-                setState: setIsAirConditionerOn,
-                icon: "fa-wind",
-                label: "Air Conditioner",
+                state: isFanOn, 
+                setState: setIsFanOn, 
+                icon: "fa-fan", 
+                label: "Fan", 
               },
               {
                 state: isLightsOn,
@@ -111,45 +111,37 @@ function AdminDashboard() {
             ))}
           </div>
 
-          {/* Air Conditioner Control Panel */}
+          {/* Fan Control Panel */}
           <div className="p-6 bg-white rounded-[25px] pb-[60px] shadow-lg border border-gray-200">
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center space-x-2">
                 <span className="text-blue-600 text-lg">⚡</span>
                 <span className="text-gray-600 font-medium">
-                  Air Conditioner
+                  Fan
                 </span>
               </div>
               <div
                 className={`p-4 rounded-lg flex flex-col items-start justify-between ${
-                  isAirConditionerOn
+                  isFanOn
                     ? "bg-white text-gray-800"
                     : "bg-white text-gray-800"
                 }`}
               >
                 <div className="flex items-center justify-between w-full gap-x-4">
-                  <span>{isAirConditionerOn ? "ON" : "OFF"}</span>
+                  <span>{isFanOn ? "ON" : "OFF"}</span>
                   <label className="switch">
-                    {/* <input
-                      type="checkbox"
-                      className="toggle-switch"
-                      checked={isAirConditionerOn}
-                      onChange={() => setIsAirConditionerOn(!isAirConditionerOn)}
-                    /> */}
-
                     <div
                       className={`w-[42px] h-[24px] flex items-center rounded-[12px] cursor-pointer transition-all ${
-                        isAirConditionerOn ? "bg-primary" : "bg-[#F3F1F1] "
+                        isFanOn ? "bg-primary" : "bg-[#F3F1F1] "
                       }`}
-                      onClick={() => setIsAirConditionerOn(!isAirConditionerOn)}
+                      onClick={() => setIsFanOn(!isFanOn)}
                     >
                       <div
                         className={`w-[20px] h-[20px] rounded-[50%] transition-transform ${
-                          isAirConditionerOn ? "translate-x-[20px] bg-white" : "translate-x-[2.5px] translate-y-[-0.5px] bg-white"
+                          isFanOn ? "translate-x-[20px] bg-white" : "translate-x-[2.5px] translate-y-[-0.5px] bg-white"
                         }`}
                       ></div>
                     </div>
-
                     <span className="slider round"></span>
                   </label>
                 </div>
@@ -157,7 +149,7 @@ function AdminDashboard() {
             </div>
             <div className="flex items-center justify-center space-x-6">
               <button
-                onClick={() => setTemperature((prev) => Math.max(prev - 1, 16))}
+                onClick={() => setFanSpeed((prev) => Math.max(prev - 5, 0))}
                 className="w-10 h-10 flex items-center justify-center cursor-pointer bg-[#F5F5F5] text-gray-600 text-2xl shadow-2xs rounded-lg pb-[5px] active:scale-95"
               >
                 -
@@ -165,13 +157,12 @@ function AdminDashboard() {
               <div className="relative w-40 h-40 flex items-center justify-center rounded-full bg-gradient-to-b from-gray-200 to-white shadow-lg">
                 <div className="w-28 h-28 bg-white rounded-full flex flex-col items-center justify-center shadow-inner">
                   <span className="text-2xl font-semibold">
-                    {temperature}°C
+                    {fanSpeed}
                   </span>
-                  <span className="text-gray-400 text-sm">Celcius</span>
                 </div>
               </div>
               <button
-                onClick={() => setTemperature((prev) => Math.min(prev + 1, 30))}
+                onClick={() => setFanSpeed((prev) => Math.min(prev + 5, 100))}
                 className="w-10 h-10 flex items-center justify-center cursor-pointer bg-primary text-white text-2xl rounded-lg shadow-lg active:scale-95"
               >
                 +
