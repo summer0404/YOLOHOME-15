@@ -209,7 +209,7 @@ function AdminDashboard() {
                       className={`w-[42px] h-[24px] flex items-center rounded-[12px] cursor-pointer transition-all ${
                         isFanOn ? "bg-primary" : "bg-[#F3F1F1]"
                       }`}
-                      onClick={() => setIsFanOn(!isFanOn)}
+                      onClick={() => toggleDevice("bbc-fan", isFanOn,setIsFanOn)}
                     >
                       <div
                         className={`w-[20px] h-[20px] rounded-[50%] transition-transform ${
