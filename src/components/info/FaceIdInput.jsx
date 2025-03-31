@@ -2,9 +2,9 @@ import { useState } from "react";
 import { MoreVertical } from "lucide-react";
 import { uploadFace } from "../../api/services/uploadFaces";
 
-export default function FaceIdInput() {
+export default function FaceIdInput({onFetchUsers}) {
   const [name, setName] = useState("");
-  const [files, setFiles] = useState(Array(5).fill(null)); // Store 5 files
+  const [files, setFiles] = useState(Array(5).fill(null));
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [previews, setPreviews] = useState(Array(5).fill(null));
@@ -36,6 +36,10 @@ export default function FaceIdInput() {
       setMessage("Upload successful!");
       setIsSuccess(true);
       console.log("Response:", response);
+
+      if (onFetchUsers) {
+        onFetchUsers();
+      }
     } catch (error) {
       setMessage("Upload failed. Please try again.");
       setIsSuccess(false);

@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = "https://36b6-14-187-91-80.ngrok-free.app/delete/";
+const URL = import.meta.env.VITE_URL_API_AI;
+
+const API_URL = `${URL}/delete/`;
 
 export const deleteUser = async (name) => {
     if (!name) {

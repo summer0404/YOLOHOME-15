@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const API_URL = "https://36b6-14-187-91-80.ngrok-free.app/upload-faces/";
+const URL = import.meta.env.VITE_URL_API_AI;
+
+const API_URL = `${URL}/upload-faces/`;
+
 
 export const uploadFace = async (name, files) => {
   if (!files || files.length !== 5) {
@@ -10,10 +13,10 @@ export const uploadFace = async (name, files) => {
   const formData = new FormData();
   
   // Append each file individually
-  files.forEach((file, index) => {
+  files.forEach((file) => {
     formData.append("files", file);
   });
-
+  console.log(`${API_URL}?name=${encodeURIComponent(name)}`);
   try {
     const response = await axios.post(
       `${API_URL}?name=${encodeURIComponent(name)}`, 

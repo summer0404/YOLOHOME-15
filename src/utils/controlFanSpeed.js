@@ -15,7 +15,7 @@ export const controlFanSpeed = async (speed) => {
                 "Content-Type": "application/json",
                 "X-AIO-Key": aioKey
             },
-            body: JSON.stringify({ value: speed }) // Send value between 0-100
+            body: JSON.stringify({ value: speed })
         });
 
         if (!response.ok) throw new Error("Failed to update fan speed");

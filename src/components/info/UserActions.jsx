@@ -5,7 +5,7 @@ import { getUser } from "../../api/services/getUser";
 import { deleteUser } from "../../api/services/deleteUser";
 import { train } from "../../api/services/train";
 
-const UserActions = () => {
+const UserActions = ({ onFetchUsers }) => {
   const [captureText, setCaptureText] = useState("");
   const [captureMessage, setCaptureMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
@@ -27,26 +27,32 @@ const UserActions = () => {
     }, 3000); // Message will disappear after 3 seconds
   };
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      setLoadingUsers(true);
-      setUserError("");
-      try {
-        const response = await getUser();
-        console.log("Response:", response);
-        // Ensure response is an array
-        const userArray = Array.isArray(response) ? response : [];
-        setUsers(userArray);
-      } catch (error) {
-        setUserError("Failed to fetch users. Please try again.");
-        console.error("Error fetching users:", error);
+  const fetchUsers = async () => {
+    setLoadingUsers(true);
+    setUserError("");
+    try {
+      const response = await getUser();
+      console.log("Response:", response);
+      // Ensure response is an array
+      const userArray = Array.isArray(response) ? response : [];
+      setUsers(userArray);
+    } catch (error) {
+      setUserError("Failed to fetch users. Please try again.");
+      console.error("Error fetching users:", error);
 setUsers([]); // Set empty array on error
-      } finally {
-        setLoadingUsers(false);
-      }
-    };
+    } finally {
+      setLoadingUsers(false);
+    }
+  };
+
+  useEffect(() => {
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [onFetchUsers]);
+
 
   const handleCapture = async () => {
     if (!captureText.trim()) {
@@ -68,6 +74,8 @@ setUsers([]); // Set empty array on error
       setIsSuccess(false);
       clearMessage(setCaptureMessage);
     }
+
+    fetchUsers();
   };
 
   const handleDelete = async () => {
@@ -94,6 +102,7 @@ setUsers([]); // Set empty array on error
       clearMessage(setUserError);
       console.error("Delete failed:", error);
     }
+    fetchUsers();
   };
 
   const handleTraining = async () => {
@@ -114,6 +123,7 @@ setUsers([]); // Set empty array on error
     } finally {
       setIsTraining(false);
     }
+    fetchUsers();
   };
 
   return (
@@ -122,11 +132,11 @@ setUsers([]); // Set empty array on error
       <div>
         <h2 className="text-xl font-semibold pb-[10px]">Delete User</h2>
         <div className="flex items-center space-x-4 mt-2">
-          <div className="relative flex-1">
+          <div className="relative flex-1" >
             <select
               className="w-full p-3 bg-gray-100 rounded-xl appearance-none pr-8 outline-none"
               value={selectedUser}
-              onChange={(e) => setSelectedUser(e.target.value)}
+              onChange={(e) => {setSelectedUser(e.target.value);}}
               disabled={loadingUsers}
             >
               <option value="">Select a user...</option>
@@ -165,7 +175,7 @@ setUsers([]); // Set empty array on error
             onChange={(e) => setCaptureText(e.target.value)}
             className="flex-1 p-3 bg-gray-100 rounded-[11px] outline-none"
           />
-          <button className="bg-[#F4C427] cursor-pointer hover:opacity-80 text-white px-4 py-2 rounded-xl font-semibold">
+          <button onClick={handleCapture} className="bg-[#F4C427] cursor-pointer hover:opacity-80 text-white px-4 py-2 rounded-xl font-semibold">
             Cap
           </button>
         </div>

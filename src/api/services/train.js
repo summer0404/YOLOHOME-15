@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = "https://36b6-14-187-91-80.ngrok-free.app/train_model/face_detect";
+const URL = import.meta.env.VITE_URL_API_AI;
+
+const API_URL = `${URL}/train_model/face_detect`;
 
 export const train = async () => {
     try {

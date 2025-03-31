@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PasswordInput from "../components/home/PasswordInput";
 import WelcomeCard from "../components/home/WelcomeCard";
 import { Droplet } from "lucide-react";
@@ -24,17 +24,28 @@ function AdminDashboard() {
   const [isFanOn, setIsFanOn] = useState(0);
   const [isLightsOn, setIsLightsOn] = useState(0);
 
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  // const [passwordVisible, setPasswordVisible] = useState(false);
   const [fanSpeed, setFanSpeed] = useState(50);
   const [temperature, setTemperature] = useState(null);
   const [humidity, setHumidity] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const temp = await fetchAdafruitData("bbc-temperature");
-      const hum = await fetchAdafruitData("bbc-humidity");
+      const [temp, hum, lockState, fanState, lightState, fanSpeedValue] = await Promise.all([
+        fetchAdafruitData("bbc-temperature"),
+        fetchAdafruitData("bbc-humidity"),
+        fetchAdafruitData("bbc-servo"),
+        fetchAdafruitData("bbc-fan"),
+        fetchAdafruitData("bbc-led"),
+        fetchAdafruitData("bbc-control-fan")
+      ]);
+
       setTemperature(temp);
       setHumidity(hum);
+      setIsLockOn(parseInt(lockState));
+      setIsFanOn(parseInt(fanState));
+      setIsLightsOn(parseInt(lightState));
+      setFanSpeed(parseInt(fanSpeedValue));
     };
 
     fetchData();
@@ -61,7 +72,7 @@ function AdminDashboard() {
   }/${current.getFullYear()}`;
 
   return (
-    <div className="container mx-auto px-4 bg-[#F9F9F9]">
+    <div className="container mx-auto px-4 bg-[#F9F9F9] ml-[120px] mt-[90px] mb-[40px]">
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Left and Middle Column */}
         <div className="xl:col-span-2 space-y-6">
@@ -118,26 +129,26 @@ function AdminDashboard() {
             ].map((item, index) => (
               <div key={index} className="p-4">
                 <div
-                  className={`p-4 h-35 flex flex-col items-center justify-center rounded-[25px] ${
+                  className={`p-4 h-35 flex flex-col items-center justify-center rounded-[25px] cursor-pointer  ${
                     item.state
-                      ? "bg-primary text-white shadow-md shadow-primary"
+                      ? (item.label == "Lock" ? " text-white bg-white border-[#E6E5F2] rounded-[25px] border-[1px]" : "bg-primary text-white shadow-md shadow-primary")
                       : "bg-white text-gray-800 border-[#E6E5F2] rounded-[25px] border-[1px]"
                   }`}
                 >
                   {item.isButton ? (
                     // Lock Button
-                    <>
+                    <div className="flex flex-col relative">
                       <button
                         onClick={() => handleLockClick(item)}
-                        className={`w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold ${
-                          item.state ? "bg-white text-primary lock-animation pulse-animation" : "bg-gray-300 text-gray-600"
+                        className={`w-23 h-23 flex items-center cursor-pointer justify-center rounded-full text-xl font-bold ${
+                          item.state ? "bg-white text-primary lock-animation pulse-animation after:content-[''] after:absolute after:inset-0 after:rounded-full after:bg-primary after:border-[20px] after:border-[#DDD7FF] after:transition-all after:duration-300 after:ease-in-out" : "bg-[#F5F5F5] text-[#9897AD] after:content-[''] after:absolute after:inset-0 after:rounded-full after:border-[20px] after:border-[#FAFAFA] after:transition-all after:duration-300 after:ease-in-out"
                         }`}
                       >
                         {/* Change the icon dynamically based on the state */}
-                        <i className={`fas ${item.state ? "fa-lock-open" : "fa-lock"}`}></i>
+                        <i className={`font-[9px]  z-1 fas ${item.state ? "fa-lock-open text-white " : "fa-lock text-gray-500"}`}></i>
                       </button>
-                      <span className="mt-4 text-lg font-medium">{item.label}</span>
-                    </>
+                      {/* <div className="mt-4 text-lg ]">{item.label}</div> */}
+                    </div>
                   ) : (
         
                     <>
@@ -169,7 +180,7 @@ function AdminDashboard() {
                       </div>
                       <i
                         className={`fas ${item.icon} text-2xl mt-4 ${
-                          item.state ? "text-white" : "text-gray-400"
+                          item.state ? "text-white" : "text-gray-500"
                         }`}
                       ></i>
                       <span className="mt-2">{item.label}</span>

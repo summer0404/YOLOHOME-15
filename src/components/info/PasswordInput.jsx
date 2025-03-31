@@ -1,19 +1,39 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MoreVertical } from "lucide-react";
+import { controlPasswordValue } from "../../utils/controlPasswordValue";
+import { fetchAdafruitData } from "../../utils/fetchAdafruitData";
 
 export default function PasswordInput() {
   const [password, setPassword] = useState(new Array(4).fill(""));
-  const inputRefs = useRef([]);
-
-  useEffect(() => {
-    if (inputRefs.current[0]) {
-      inputRefs.current[0].focus();
-    }
-  }, []);
-
-  const onPasswordSubmit = (password) => {
-    console.log(password);
-  };
+    const inputRefs = useRef([]);
+  
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const data = await fetchAdafruitData("bbc-password");
+            if (data !== "") {
+              const receivedPass = data.split('');
+              if (receivedPass.length === 4) {
+                setPassword(receivedPass);
+              }
+            } else {
+              setPassword(new Array(4).fill(""));
+            }
+            
+          } catch (error) {
+            console.error('Error fetching password:', error);
+          }
+        };
+    
+        fetchData();
+    
+        const interval = setInterval(fetchData, 5000);
+        return () => clearInterval(interval);
+      }, []);
+  
+    const onPasswordSubmit = async (password) => {
+      await controlPasswordValue(password);
+    };
 
   const handleChange = (index, e) => {
     const value = e.target.value;

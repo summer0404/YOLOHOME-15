@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const API_URL = "https://36b6-14-187-91-80.ngrok-free.app/users/";
+const URL = import.meta.env.VITE_URL_API_AI;
+
+const API_URL = `${URL}/users`;
+
 
 export const getUser = async () => {
     try {

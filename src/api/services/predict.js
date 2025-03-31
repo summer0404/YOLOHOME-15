@@ -2,16 +2,12 @@ import axios from "axios";
 
 const URL = import.meta.env.VITE_URL_API_AI;
 
-const API_URL = `${URL}/capture-photos/`;
+const API_URL = `${URL}/face_detect`;
 
-export const capture = async (name) => {
-    if (!name) {
-        throw new Error("Name is required");
-    }
-
+export const predict = async () => {
     try {
         const response = await axios.get(
-            `${API_URL}${encodeURIComponent(name)}`, 
+            `${API_URL}`, 
             {
                 headers: {
                     "Content-Type": "application/json",

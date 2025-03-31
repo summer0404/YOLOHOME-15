@@ -1,19 +1,40 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MoreVertical } from "lucide-react";
+import { fetchAdafruitData } from "../../utils/fetchAdafruitData";
+import { controlPasswordValue } from "../../utils/controlPasswordValue";
+
+
 
 export default function PasswordInput() {
   const [password, setPassword] = useState(new Array(4).fill(""));
   const inputRefs = useRef([]);
 
   useEffect(() => {
-    if (inputRefs.current[0]) {
-      inputRefs.current[0].focus();
-    }
-  }, []);
+      const fetchData = async () => {
+        try {
+          const data = await fetchAdafruitData("bbc-password");
+          if (data !== "") {
+            const receivedPass = data.split('');
+            if (receivedPass.length === 4) {
+              setPassword(receivedPass);
+            }
+          } else {
+            setPassword(new Array(4).fill(""));
+          }
+          
+        } catch (error) {
+          console.error('Error fetching password:', error);
+        }
+      };
+  
+      fetchData();
+  
+      const interval = setInterval(fetchData, 5000);
+      return () => clearInterval(interval);
+    }, []);
 
-  const onPasswordSubmit = (password) => {
-    console.log(password);
-    //Save for later use
+  const onPasswordSubmit = async (password) => {
+    await controlPasswordValue(password);
   };
 
   const handleChange = (index, e) => {
@@ -76,6 +97,7 @@ export default function PasswordInput() {
               onChange={(e) => handleChange(index, e)}
               onClick={() => handleClick(index)}
               onKeyDown={(e) => handleKeyDown(index, e)}
+              readOnly
               className="w-[70px] h-[70px] bg-white rounded-[15px] outline outline-[#E6E5F2] text-center text-[20px] font-semibold mr-2"
             />
           );

@@ -9,19 +9,24 @@ export default function Info() {
   // Initialize state with one input
   const [faceIdInputs, setFaceIdInputs] = useState([{ id: 0 }]);
 
+  const [fetchUsersTrigger, setFetchUsersTrigger] = useState(false);
+  const handleFetchUsers = () => {
+    setFetchUsersTrigger((prev) => !prev); // Kích hoạt lại fetchUsers
+  };
+
   // Handler to add new input
   const handleAddInput = () => {
     setFaceIdInputs(prevInputs => [...prevInputs, { id: prevInputs.length }]);
   };
 
   return (
-    <div className="flex min-h-screen w-[1200px] mx-auto">
+    <div className="flex min-h-screen w-[1200px] mx-auto ml-[150px] mt-[90px]">
       {/* Left Column */}
       <div className="w-[750px] p-4"> 
         <FaceIDHeader />
         <div className="flex flex-col items-center space-y-4">
           {faceIdInputs.map((input) => (
-            <FaceIdInput key={input.id} />
+            <FaceIdInput key={input.id} onFetchUsers={handleFetchUsers}/>
           ))}
           <AddButton onClick={handleAddInput} />
         </div>
@@ -29,7 +34,7 @@ export default function Info() {
 
       {/* Right Column */}
       <div className="w-[430px] p-4">
-        <UserActions />
+        <UserActions onFetchUsers={fetchUsersTrigger} />
         <PasswordInput bgColor='color-primary'/>
       </div>
     </div>
