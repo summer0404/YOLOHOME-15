@@ -24,7 +24,6 @@ function AdminDashboard() {
   const [isFanOn, setIsFanOn] = useState(0);
   const [isLightsOn, setIsLightsOn] = useState(0);
 
-  // const [passwordVisible, setPasswordVisible] = useState(false);
   const [fanSpeed, setFanSpeed] = useState(50);
   const [temperature, setTemperature] = useState(null);
   const [humidity, setHumidity] = useState(null);
@@ -281,11 +280,6 @@ function AdminDashboard() {
                 Temperature
               </h3>
               <div className="">
-                {/* <img
-                  alt="Temperature graph"
-                  className="w-full h-auto rounded-lg"
-                  src="/tem.png"
-                /> */}
                 <CustomChart />
               </div>
             </div>

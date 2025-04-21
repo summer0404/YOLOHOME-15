@@ -2,7 +2,7 @@ import axios from "axios";
 
 const URL = import.meta.env.VITE_URL_API_AI;
 
-const API_URL = `${URL}/delete/`;
+const API_URL = `${URL}/user/delete/`;
 
 export const deleteUser = async (name) => {
     if (!name) {

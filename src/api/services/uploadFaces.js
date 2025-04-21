@@ -2,7 +2,7 @@ import axios from "axios";
 
 const URL = import.meta.env.VITE_URL_API_AI;
 
-const API_URL = `${URL}/upload-faces/`;
+const API_URL = `${URL}/user/upload-faces/`;
 
 
 export const uploadFace = async (name, files) => {

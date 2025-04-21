@@ -2,7 +2,7 @@ import axios from "axios";
 
 const URL = import.meta.env.VITE_URL_API_AI;
 
-const API_URL = `${URL}/users`;
+const API_URL = `${URL}/user/list`;
 
 
 export const getUser = async () => {
@@ -19,7 +19,8 @@ export const getUser = async () => {
         console.log('Response:', response);
         
         if (response.data && typeof response.data === 'object') {
-            return Array.isArray(response.data) ? response.data : [];
+            // Extract users array from response data
+            return response.data.users || [];
         }
         
         return [];

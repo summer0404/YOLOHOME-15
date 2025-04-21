@@ -33,13 +33,12 @@ const UserActions = ({ onFetchUsers }) => {
     try {
       const response = await getUser();
       console.log("Response:", response);
-      // Ensure response is an array
       const userArray = Array.isArray(response) ? response : [];
       setUsers(userArray);
     } catch (error) {
       setUserError("Failed to fetch users. Please try again.");
       console.error("Error fetching users:", error);
-setUsers([]); // Set empty array on error
+      setUsers([]);
     } finally {
       setLoadingUsers(false);
     }
