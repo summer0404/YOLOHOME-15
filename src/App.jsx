@@ -4,7 +4,10 @@ import Home from "./pages/Home";
 import Info from "./pages/Info";
 import SideBar from "./components/SideBar";
 import NavBar from "./components/NavBar";
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import LogIn from "./pages/LogIn";
+import SignUp from "./pages/SignUp";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -14,8 +17,24 @@ function App() {
         <NavBar />
         <main className="mt-[20px] p-6">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/info" element={<Info />} />
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/info"
+              element={
+                <ProtectedRoute>
+                  <Info />
+                </ProtectedRoute>
+              }
+            />
+            <Route index element={<LogIn />} />
+            <Route path="signup" element={<SignUp />} />
           </Routes>
         </main>
       </div>
