@@ -2,7 +2,7 @@ import axios from "axios";
 
 const URL = import.meta.env.VITE_URL_API_AI;
 
-const API_URL = `${URL}/capture-photos/`;
+const API_URL = `${URL}/user/capture-photos/`;
 
 export const capture = async (name) => {
     if (!name) {

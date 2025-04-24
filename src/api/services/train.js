@@ -2,7 +2,7 @@ import axios from "axios";
 
 const URL = import.meta.env.VITE_URL_API_AI;
 
-const API_URL = `${URL}/train_model/face_detect`;
+const API_URL = `${URL}/system/train`;
 
 export const train = async () => {
     try {

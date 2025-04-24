@@ -6,15 +6,13 @@ import FaceIDHeader from "../components/info/FaceIDHeader";
 import AddButton from "../components/info/AddButton";
 
 export default function Info() {
-  // Initialize state with one input
   const [faceIdInputs, setFaceIdInputs] = useState([{ id: 0 }]);
 
   const [fetchUsersTrigger, setFetchUsersTrigger] = useState(false);
   const handleFetchUsers = () => {
-    setFetchUsersTrigger((prev) => !prev); // Kích hoạt lại fetchUsers
+    setFetchUsersTrigger((prev) => !prev);
   };
 
-  // Handler to add new input
   const handleAddInput = () => {
     setFaceIdInputs(prevInputs => [...prevInputs, { id: prevInputs.length }]);
   };
