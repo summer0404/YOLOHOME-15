@@ -35,7 +35,7 @@ export default function SideBar() {
             </div>
           </div>
         </div>
-        <button onClick={handleLogout} className="text-primary">
+        <button onClick={handleLogout} className="text-primary cursor-pointer">
           <LogOut size={24} />
         </button>
       </div>

@@ -14,6 +14,7 @@ export const train = async () => {
             },
         });
 
+
         console.log('Response from train model:', response);
         
         return response.data;

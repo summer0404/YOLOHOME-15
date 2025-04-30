@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area } from "recharts";
+import {
+  LineChart, Line, XAxis, YAxis, Tooltip,
+  ResponsiveContainer, Area, CartesianGrid
+} from "recharts";
 import { getDailyAverages } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 
@@ -13,75 +16,86 @@ export default function CustomChart() {
       setError(null);
       try {
         const data = await getDailyAverages();
-        setChartData(data);
+        const recentData = data.length > 7 ? data.slice(-7) : data;
+        setChartData(recentData);
       } catch (err) {
         setError(err.message);
         if (err.message.includes('Unauthorized')) {
-          navigate('/'); // Redirect to login if unauthorized
+          navigate('/');
         }
       }
     };
     fetchData();
   }, [navigate]);
+
   return (
-    <div className="bg-white py-[40px] rounded-[25px] shadow-md">
-      <ResponsiveContainer width="95%" height={200}>
-        <LineChart data={chartData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
-          <defs>
-            <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#FF7F50" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#FF7F50" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <XAxis
-            dataKey="name" // Use "name" from the API response
-            tick={{ fill: "#999", angle: -45 }}
-            axisLine={false}
-            tickLine={false}
-            padding={{ left: 20, right: 20 }}
-            interval={0}
-            dy={10}
-          />
-          <YAxis
-            tick={{ fill: "#999", padding: 0 }}
-            axisLine={false}
-            tickLine={false}
-            hide={false}
-            domain={["dataMin - 5", "dataMax + 10"]}
-            tickCount={5}
-            tickFormatter={(value, index) => (index === 0 ? "" : value)}
-          />
-          <Tooltip
-            contentStyle={{
-              background: "white",
-              border: "none",
-              borderRadius: "10px",
-              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            }}
-          />
-          <Area
-            type="monotone"
-            dataKey="value" // Use "value" from the API response
-            stroke="#FF7F50"
-            fillOpacity={1}
-            fill="url(#colorValue)"
-          />
-          <Line
-            type="monotone"
-            dataKey="value" // Use "value" from the API response
-            stroke="#FF7F50"
-            strokeWidth={3}
-            dot={false}
-            activeDot={{
-              fill: "#FF7F50",
-              r: 6,
-              stroke: "white",
-              strokeWidth: 2,
-            }}
-            animationDuration={2000}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+    <div className="bg-white px-[8px] pr-[25px] pt-[20px] h-[360px] rounded-3xl shadow-xl transition-shadow duration-300">
+      {error ? (
+        <div className="text-red-500 text-center">{error}</div>
+      ) : (
+        <ResponsiveContainer>
+          <LineChart data={chartData} margin={{ top: 20, right: 30, left: 10, bottom: 30 }}>
+            <defs>
+              <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#FF8855" stopOpacity={0.5} />
+                <stop offset="95%" stopColor="#FF8855" stopOpacity={0.1} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+            <XAxis
+              dataKey="name"
+              tick={{ fill: "#444", fontSize: 12 }}
+              axisLine={{ stroke: "#ddd" }}
+              tickLine={false}
+              interval="preserveStartEnd"
+              padding={{ left: 10, right: 10 }}
+            />
+            <YAxis
+              tick={{ fill: "#444", fontSize: 12 }}
+              axisLine={{ stroke: "#ddd" }}
+              tickLine={false}
+              domain={["dataMin - 2", "dataMax + 2"]}
+              tickCount={5}
+              tickFormatter={(value) => `${Math.round(value)}°C`}
+            />
+            <Tooltip
+              contentStyle={{
+                background: "#fff",
+                border: "1px solid #eee",
+                borderRadius: "10px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                padding: "10px 14px",
+              }}
+              labelStyle={{ fontWeight: "bold", color: "#FF8855" }}
+              formatter={(value) => [`${value}°C`, 'Temperature']}
+              cursor={{ stroke: "#FF8855", strokeWidth: 2, strokeDasharray: "4 4" }}
+            />
+            <Area
+              type="monotone"
+              dataKey="value"
+              stroke="#FF8855"
+              fillOpacity={1}
+              fill="url(#colorValue)"
+              animationDuration={1000}
+            />
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke="#FF8855"
+              strokeWidth={3}
+              dot={{ r: 4, stroke: "#fff", strokeWidth: 2, fill: "#FF8855" }}
+              activeDot={{
+                fill: "#FF8855",
+                r: 6,
+                stroke: "white",
+                strokeWidth: 3,
+                filter: "drop-shadow(0 0 3px rgba(255,136,85,0.6))"
+              }}
+              animationDuration={1000}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      )}
     </div>
   );
 }

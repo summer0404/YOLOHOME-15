@@ -227,7 +227,7 @@ function AdminDashboard() {
               <button
                 onClick={() =>
                   handleSpeedChange({
-                    target: { value: Math.max(fanSpeed - 5, 0) },
+                    target: { value: Math.max(fanSpeed - 20, 0) },
                   })
                 }
                 disabled={!isFanOn} // Disable button if fan is off
@@ -248,7 +248,7 @@ function AdminDashboard() {
               <button
                 onClick={() =>
                   handleSpeedChange({
-                    target: { value: Math.min(fanSpeed + 5, 100) },
+                    target: { value: Math.min(fanSpeed + 20, 100) },
                   })
                 }
                 disabled={!isFanOn}
